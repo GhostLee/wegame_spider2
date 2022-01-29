@@ -247,8 +247,16 @@ class Analysis():
 
         date_cnt_sorted=sorted(date_cnt.items(), key=lambda kv: (kv[0]))
         time_cnt_sorted=sorted(time_cnt.items(), key=lambda kv: (kv[0]))
-
+        weekly_cnt=weekly_cnt
         print("Done timestamp play analysis")
+
+    def game_analysis(self):
+        games_type=set([])
+        games_mode=set([])
+        for infos in tqdm(self.record):
+            games_type.add(infos["game_type"])
+            games_mode.add(infos["game_mode"])
+        print(f"Game types: {games_type};games_mode{games_mode}")
 
 
 if __name__ == '__main__':
@@ -265,12 +273,13 @@ if __name__ == '__main__':
     nickname = "籍籍无名哈撒给"
 
     limit=500
-    data_dir="C:/Users/go2cl/Desktop/lol/battle_infos"
+    data_dir="C:/Users/go2cl/Desktop/spider_wegame/battle_infos"
     saving_name = f"{nickname}_{limit}.pkl"
     # spider = Spider_WeGame(login_data, headers, data_dir)
     # spider.generate_record(nickname, id, limit, saving_name)
 
     recorder_path=data_dir+"/"+saving_name
     ana_recorder = Analysis(recorder_path)
+    ana_recorder.game_analysis()
     ana_recorder.friend_analysis()
     ana_recorder.date_timestamp_analysis(200)
