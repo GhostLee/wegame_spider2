@@ -1,7 +1,7 @@
 #!/user/bin/env python
 # 每天都要有好心情
 # http://www.wegame.com.cn/ wegame cookie, document.cookie P-skey
-sig='s9j7QKy4CE743j2Yy1cnr4T-zSmfJyoAyGesS8K0gOA_'
+sig='MgpGe2gOggizIHynpQ2ZOSQd0-5C3lb2Yaw8OiFZbbI_'
 # 用于登录提交的json数据
 LOGIN_DATA = {
     "login_info": {
