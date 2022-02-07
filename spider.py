@@ -184,9 +184,11 @@ class Spider_WeGame:
 
     def big_bro_watching_u(self, player_puppy, dove, mode=0):
         if mode == 0:
-            check_latency= 4*60  # second 5*60
-            report_latency= 8*3600 # min 24*3600
+            check_latency= 4  # min 5*60
+            report_latency= 8*60 # min 24*3600
+            login_latency= 10 # min 10
             running_checkpoint=time.time()
+            login_checkpoint=time.time()
             latest_info=None
 
             while True:
@@ -198,6 +200,15 @@ class Spider_WeGame:
                     error_flag=dove.send(f"{now_time}", "NoticeOn")
                     if error_flag:
                         raise RuntimeError(f"{now_time} dove down")
+
+                interval = float(timestamp-login_checkpoint)/60
+                if interval>login_latency:
+                    login_checkpoint=timestamp
+                    flag=self.login()
+                    if not flag:
+                        error_flag=dove.send(f"{now_time}", "NoticeReLoginFail")
+                        if error_flag:
+                            raise RuntimeError(f"{now_time} dove down")
 
                 try:
                     infos = self.get_player_battle_infos(player_puppy, limit=1, quite=True)
@@ -222,7 +233,7 @@ class Spider_WeGame:
                     if error_flag:
                         raise RuntimeError(f"{now_time} dove down")
 
-                time.sleep(check_latency)
+                time.sleep(check_latency*60)
 
 class Analysis():
     def __init__(self, record_dir):
